@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DYWOX</title>
+<meta name="description" content="DYWOX: tutoriales en video, programas y proyectos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE  occasion: el sitio de un pequeño estudio que crea herramientas de audio y video
+   IDEA   la pantalla de un editor de video: pistas, clips, cabezal de reproducción, luz REC
+   PICTURE una línea de tiempo grande en la portada; cada clip es un programa de DYWOX
+   COLOUR rojo REC #e0245e en bandas completas, tinta casi negra, verde "en vivo" como acento
+   TYPE   Archivo 800 para títulos y código de tiempo + Inter para el texto
+   LAYOUT título arriba a lo ancho, editor debajo a todo el ancho; en el teléfono se apila igual */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0f0c10);--ink:light-dark(#141015,#f3eef2);--mute:light-dark(#5e5560,#b3a8b2);--rec:#e0245e;--rec2:#b81a4b;--live:#2fbf71;--panel:#17121a;--panel2:#221b26;--line:light-dark(#ece6eb,#2a2230);--card:light-dark(#faf7f9,#18131a)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:clip}
+img{max-width:100%}
+[hidden]{display:none!important}
+a{color:inherit}
+h1,h2,h3{font-family:Archivo,Inter,system-ui,sans-serif;letter-spacing:-.02em;line-height:1.05;margin:0;text-wrap:balance}
+h2{font-size:clamp(30px,4vw,44px);font-weight:800}
+h3{font-size:19px;font-weight:700;line-height:1.2}
+p{margin:0}
+.band{padding-block:clamp(36px,5vw,72px);padding-left:max(5vw,16px);padding-right:max(5vw,16px)}
+.wrap{max-width:1240px;margin:0 auto}
+.nav{position:sticky;top:0;z-index:20;background:var(--rec);color:#fff;padding:12px max(5vw,16px)}
+.nav .wrap{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font:800 22px/1 Archivo,sans-serif;text-decoration:none;letter-spacing:.02em}
+.logo i{width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.25)}
+.nav nav{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+.nav nav a{text-decoration:none;font-weight:600;padding:10px 12px;border-radius:8px;min-height:44px;display:inline-flex;align-items:center}
+.nav nav a:hover,.nav nav a:focus-visible{background:rgba(255,255,255,.16);outline:none}
+.nav nav a.yt{background:#fff;color:var(--rec2);margin-left:6px}
+.nav nav a.yt:hover,.nav nav a.yt:focus-visible{background:#ffe3ec}
+.hero{background:var(--rec);color:#fff;padding-top:clamp(24px,4vw,48px)}
+.hero-top{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:clamp(20px,4vw,56px);align-items:end;margin-bottom:clamp(22px,3vw,36px)}
+.hero h1{font-size:clamp(38px,5.6vw,68px);font-weight:800}
+.hero .lead{font-size:18px;max-width:46ch;opacity:.95}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:12px 20px;border-radius:10px;font-weight:600;text-decoration:none;border:0;cursor:pointer;font-size:16px}
+.btn.claro{background:#fff;color:var(--rec2)}
+.btn.borde{background:transparent;color:#fff;box-shadow:inset 0 0 0 2px rgba(255,255,255,.7)}
+.btn:hover{filter:brightness(1.06)}
+.btn:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.editor{background:var(--panel);border-radius:16px 16px 0 0;padding:12px 12px 0;box-shadow:0 -1px 0 rgba(255,255,255,.08) inset}
+.editor-bar{display:flex;align-items:center;gap:10px;color:#cfc4cc;font:600 13px/1 Inter,sans-serif;padding:4px 6px 12px;flex-wrap:wrap}
+.editor-bar b{font:800 15px/1 Archivo,sans-serif;color:#fff;font-variant-numeric:tabular-nums}
+.editor-bar .rec{display:inline-flex;align-items:center;gap:6px;color:#fff;background:var(--rec);padding:5px 9px;border-radius:6px}
+.editor-bar .rec::before{content:"";width:8px;height:8px;border-radius:50%;background:#fff}
+.editor-bar span:last-child{margin-left:auto}
+.fig{position:relative;min-height:clamp(250px,30vw,330px)}
+.fig>svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.filtros{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0}
+.chip{min-height:44px;padding:10px 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font:600 15px Inter,sans-serif;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip:focus-visible{outline:3px solid var(--rec);outline-offset:2px}
+.cab{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap}
+.cab p{color:var(--mute);max-width:56ch}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.video{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.mini{aspect-ratio:16/9;position:relative;background:var(--panel);overflow:hidden}
+.mini{display:block}
+.mini svg{width:100%;height:100%;display:block}
+.mini img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.shorts{display:flex;gap:16px;overflow-x:auto;padding-bottom:10px;margin-top:18px;scroll-snap-type:x mandatory}
+.short{flex:none;width:170px;scroll-snap-align:start;text-decoration:none;color:inherit}
+.short .cap{aspect-ratio:9/16;border-radius:14px;overflow:hidden;position:relative;background:var(--panel)}
+.short .cap svg{width:100%;height:100%;display:block}
+.short .cap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.short p{font-size:14px;font-weight:600;line-height:1.35;margin-top:8px}
+.short:focus-visible .cap{outline:3px solid var(--rec);outline-offset:2px}
+h3.sub{margin-top:clamp(36px,5vw,56px);font-size:24px;font-weight:800}
+.dur{position:absolute;right:10px;bottom:10px;background:rgba(0,0,0,.75);color:#fff;font:600 13px Inter,sans-serif;padding:3px 7px;border-radius:5px;white-space:nowrap}
+.video .txt{padding:16px 16px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
+.meta{display:flex;gap:8px;flex-wrap:wrap;font-size:13px;color:var(--mute)}
+.tag{font-size:13px;font-weight:600;padding:3px 9px;border-radius:6px;background:color-mix(in srgb,var(--rec) 12%,transparent);color:light-dark(var(--rec2),#ff8fb0)}
+.video .ver{margin-top:auto;padding-top:6px;font-weight:600;color:light-dark(var(--rec2),#ff8fb0);text-decoration:none}
+.video .ver[aria-disabled=true]{color:var(--mute)}
+.nota{font-size:13px;color:var(--mute);margin-top:16px}
+.vacio{grid-column:1/-1;padding:28px;text-align:center;color:var(--mute);border:1.5px dashed var(--line);border-radius:14px}
+.oscuro{background:var(--panel);color:#f3eef2}
+.oscuro .cab p{color:#b9adb7}
+.prog{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:28px}
+.app{background:var(--panel2);border-radius:16px;padding:22px;display:grid;grid-template-columns:64px minmax(0,1fr);gap:16px;align-content:start}
+.ico{width:64px;height:64px;border-radius:14px;display:grid;place-items:center}
+.ico svg{width:34px;height:34px}
+.app h3{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.ver-num{font:600 13px Inter,sans-serif;color:#b9adb7;white-space:nowrap}
+.estado{font:600 13px Inter,sans-serif;padding:3px 9px;border-radius:6px;white-space:nowrap}
+.estado.listo{background:rgba(47,191,113,.16);color:#5fe39a}
+.estado.dev{background:rgba(255,255,255,.1);color:#d9cfd6}
+.app p{color:#cfc4cc;margin-top:6px}
+.app ul{margin:12px 0 0;padding-left:18px;color:#e7dfe5;display:grid;gap:4px}
+.app .pie{grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap;align-items:center;border-top:1px solid rgba(255,255,255,.08);padding-top:14px;margin-top:4px;font-size:14px;color:#b9adb7}
+.app .btn{min-height:44px;padding:10px 16px;font-size:15px}
+.btn.rojo{background:var(--rec);color:#fff}
+.btn.apagado{background:rgba(255,255,255,.08);color:#b9adb7;cursor:default}
+.bitacora{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:28px}
+.caso{border-top:4px solid var(--ink);padding-top:16px;display:flex;flex-direction:column;gap:10px}
+.cifra{font:800 clamp(30px,3.6vw,42px)/1 Archivo,sans-serif;letter-spacing:-.02em;white-space:nowrap}
+.cifra small{font-size:16px;font-weight:700;color:var(--mute);margin-left:4px}
+.caso p{color:var(--mute)}
+.nos{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center}
+.nos p{color:var(--mute);margin-top:14px;font-size:17px}
+.pasos{display:grid;gap:12px}
+.paso{display:grid;grid-template-columns:52px minmax(0,1fr);gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.paso b{width:52px;height:52px;border-radius:12px;display:grid;place-items:center;background:var(--rec);color:#fff;font:800 15px Archivo,sans-serif}
+.paso span{display:block;color:var(--mute);font-size:15px}
+.cta{background:var(--rec);color:#fff}
+.cta .wrap{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+.cta p{opacity:.95;margin-top:10px;max-width:52ch}
+footer{background:var(--panel);color:#b9adb7;font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer a{text-decoration:none;color:#f3eef2}
+@media(max-width:960px){.grid,.bitacora{grid-template-columns:repeat(2,minmax(0,1fr))}.prog{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:760px){.hero-top,.nos{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){.nav{position:static}html{scroll-padding-top:0}.grid,.bitacora{grid-template-columns:minmax(0,1fr)}.nav nav{margin-left:0;width:100%}.nav nav a{padding:8px 10px}.app{grid-template-columns:minmax(0,1fr)}.editor-bar span:last-child{display:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#inicio" aria-label="DYWOX, inicio"><i></i>DYWOX</a>
+    <nav aria-label="Secciones">
+      <a href="#tutoriales">Tutoriales</a>
+      <a href="#programas">Programas</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#nosotros">Nosotros</a>
+      <a class="yt" href="https://www.youtube.com/@dywox-3" target="_blank" rel="noopener">▶ YouTube</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero band" id="inicio" style="padding-bottom:0">
+  <div class="wrap">
+    <div class="hero-top">
+      <h1>Tutoriales, programas y proyectos que hacemos</h1>
+      <div>
+        <p class="lead">En DYWOX compartimos tutoriales en video, programas y los proyectos que hacemos, explicados paso a paso para que también puedas hacerlos.</p>
+        <div class="btns">
+          <a class="btn claro" href="https://www.youtube.com/@dywox-3" target="_blank" rel="noopener">▶ Ver el canal en YouTube</a>
+          <a class="btn borde" href="#tutoriales">Ver tutoriales</a>
+        </div>
+      </div>
+    </div>
+    <div class="editor" aria-label="Línea de tiempo de un editor de video">
+      <div class="editor-bar"><span class="rec">REC</span><b id="tc">00:00:00:00</b><span>proyecto_dywox.dyx · 30 fps</span></div>
+      <div class="fig"><svg id="linea" role="img" aria-label="Pistas de un editor de video: video, voz, música y efectos"></svg></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="tutoriales">
+  <div class="wrap">
+    <div class="cab">
+      <h2>Tutoriales en video</h2>
+      <p>Electrónica digital, programación e ingeniería: nuestros proyectos explicados y funcionando.</p>
+    </div>
+    <div class="filtros" id="filtros" role="group" aria-label="Filtrar tutoriales por tema"></div>
+    <div class="grid" id="videos"></div>
+    <p class="nota" id="aviso" hidden></p>
+    <div id="filas-shorts"></div>
+    <div class="btns" style="margin-top:24px"><a class="btn rojo" href="https://www.youtube.com/@dywox-3" target="_blank" rel="noopener">▶ Ver todos los videos en el canal</a></div>
+  </div>
+</section>
+
+<section class="band oscuro" id="programas">
+  <div class="wrap">
+    <div class="cab">
+      <h2>Programas</h2>
+      <p>Gratis para Windows 10 y 11. Se instalan solo para tu usuario, sin permisos de administrador.</p>
+    </div>
+    <div class="prog" id="apps"></div>
+  </div>
+</section>
+
+<section class="band" id="proyectos">
+  <div class="wrap">
+    <div class="cab">
+      <h2>Bitácora de proyectos</h2>
+      <p>Cómo resolvemos los problemas difíciles, medido y probado.</p>
+    </div>
+    <div class="bitacora" id="casos"></div>
+  </div>
+</section>
+
+<section class="band" id="nosotros" style="background:var(--card)">
+  <div class="wrap nos">
+    <div>
+      <h2>Hecho en Perú, paso a paso</h2>
+      <p>DYWOX es un equipo que aprende haciendo: creamos videos, programas y proyectos, y los compartimos explicados paso a paso para que cualquiera pueda hacerlos también.</p>
+    </div>
+    <div class="pasos">
+      <div class="paso"><b>1</b><div><strong>Lo imaginamos</strong><span>Partimos de una necesidad real o de una idea que nos gusta.</span></div></div>
+      <div class="paso"><b>2</b><div><strong>Lo construimos y probamos</strong><span>Lo hacemos de verdad y lo probamos antes de enseñarlo.</span></div></div>
+      <div class="paso"><b>3</b><div><strong>Lo compartimos</strong><span>Un tutorial en video para que aprendas a hacerlo tú.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="band cta">
+  <div class="wrap">
+    <div>
+      <h2>Suscríbete a DYWOX</h2>
+      <p>Cada nuevo tutorial y proyecto sale primero en nuestro canal. Déjanos en los comentarios qué te gustaría que hagamos.</p>
+    </div>
+    <a class="btn claro" href="https://www.youtube.com/@dywox-3?sub_confirmation=1" target="_blank" rel="noopener">▶ Suscribirme en YouTube</a>
+  </div>
+</section>
+
+<footer class="band" style="padding-block:28px">
+  <div class="wrap">
+    <span>© 2026 DYWOX · Perú</span>
+    <span><a href="#tutoriales">Tutoriales</a> · <a href="#nosotros">Nosotros</a> · <a href="https://www.youtube.com/@dywox-3" target="_blank" rel="noopener">YouTube @dywox-3</a></span>
+  </div>
+</footer>
+
+<script>
+{
+/* ============ EDITA AQUÍ EL CONTENIDO DE TU WEB ============
+   LISTAS: tus listas de reproducción PÚBLICAS de YouTube. La web muestra sola los
+   videos que tengan, cada vez que alguien la abre (en la web publicada en Vercel).
+   - id: lo que va después de "list=" en el enlace de la lista.
+   - nombre: cómo se llama el tema en la web (botón de filtro).
+   - tipo: "videos" (tarjetas) o "shorts" (fila de videos verticales).
+   Para agregar un tema nuevo: crea la lista en YouTube (pública), copia una línea y
+   cambia el id y el nombre. Para quitar un video de la web, sácalo de la lista.   */
+const LISTAS = [
+  {id:"PLYY4F6Uosy4I", nombre:"Tutoriales", tipo:"videos"},          // DYWOX Tutoriales
+  {id:"PLIOE6ZHiv-cg", nombre:"Electrónica digital", tipo:"videos"}, // Circuitos- Presentaciones
+  {id:"PLJBPqw9b-ivs", nombre:"Ingeniería", tipo:"videos"},          // INGENIERIA ECONOMICA
+];
+// Arreglos para títulos escritos todo en MAYÚSCULAS o sin tildes (opcional)
+const TILDES = {como:"cómo", verificacion:"verificación", economica:"económica", tecnologicos:"tecnológicos",
+  decadas:"décadas", sincrono:"síncrono", ingenieria:"ingeniería", rotacion:"rotación"};
+// Lista guardada: se usa solo si no se puede leer YouTube (por ejemplo en la vista previa)
+const RESPALDO = [
+  {titulo:"Cómo rotar filas", tema:"Tutoriales", youtube:"https://www.youtube.com/watch?v=t3QDpAtXkXI"},
+  {titulo:"Sistema de verificación de contraseña de 8 bits", tema:"Electrónica digital", youtube:"https://www.youtube.com/watch?v=Qz9HBpERIao"},
+  {titulo:"Detector de contraseña correcta", tema:"Electrónica digital", youtube:"https://www.youtube.com/watch?v=Xzdy2K1h1yE"},
+  {titulo:"Desplazamiento de bits", tema:"Electrónica digital", youtube:"https://www.youtube.com/watch?v=hCyUSgFas5M"},
+  {titulo:"Contador síncrono de 3 bits UP/DOWN", tema:"Electrónica digital", youtube:"https://www.youtube.com/watch?v=T6a-3p2VfpM"},
+  {titulo:"Contador de décadas síncrono", tema:"Electrónica digital", youtube:"https://www.youtube.com/watch?v=fncevA1cvCo"},
+  {titulo:"Ingeniería económica: cadena de suministros para proyectos tecnológicos", tema:"Ingeniería", youtube:"https://www.youtube.com/watch?v=2WOGNmqU5k4"},
+  {titulo:"Prueba de funcionamiento: contador binario descendente", tema:"Electrónica digital", youtube:"https://www.youtube.com/watch?v=LK9Lz4hI01s"},
+  {titulo:"Prueba de funcionamiento: contador binario ascendente", tema:"Electrónica digital", youtube:"https://www.youtube.com/watch?v=6mRJP-vVV94"},
+  {titulo:"Codificador y decodificador", tema:"Electrónica digital", youtube:"https://www.youtube.com/watch?v=745ucVaFrF4"},
+  {titulo:"Sumador y restador con circuitos integrados", tema:"Electrónica digital", youtube:"https://www.youtube.com/watch?v=4HHgHTkVhWs"},
+];
+// Programas de DYWOX: copia este modelo dentro de los corchetes para agregar uno.
+// {nombre:"Nombre", ver:"v1.0", estado:"listo", color:"#e0245e", icono:"rec",
+//  texto:"Qué hace", puntos:["Función 1","Función 2","Función 3"], descarga:"https://..."},
+// icono: "rec", "mic", "tel" o "film"; estado: "listo" o "dev"
+const PROGRAMAS = [];
+// Proyectos de DYWOX: {cifra:"10", unidad:"min", titulo:"Nombre", texto:"Qué logramos"},
+const PROYECTOS = [];
+/* =========================================================== */
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const TONOS = [["#e0245e","#5c0f2a"],["#2fbf71","#0d3d26"],["#7a5cff","#24165e"],["#ff9f1c","#5a3200"]];
+
+const idVideo = u => (String(u).match(/(?:v=|shorts\/|youtu\.be\/)([\w-]{11})/) || [])[1] || "";
+function foto(t){
+  const id = idVideo(t.youtube);
+  return id ? `<img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg" alt="" loading="lazy" onerror="this.remove()">` : "";
+}
+function miniatura(t, i){
+  const [a,b] = TONOS[(t.tono ?? i) % TONOS.length];
+  let s = 17 + i*31, barras = "";
+  for (let k = 0; k < 28; k++){ s = s*16807 % 2147483647; const h = 8 + (s % 46); barras += `<rect x="${16+k*10}" y="${150-h}" width="6" height="${h}" rx="2" fill="#fff" opacity="${k<12?0.95:0.35}"/>`; }
+  return `<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <rect width="320" height="180" fill="${b}"/><circle cx="268" cy="44" r="70" fill="${a}" opacity=".55"/>
+    <rect x="0" y="118" width="320" height="62" fill="${a}" opacity=".35"/>${barras}
+    <rect x="132" y="38" width="56" height="56" rx="28" fill="#fff"/><path d="M152 52 L174 66 L152 80 Z" fill="${b}"/></svg>`;
+}
+
+let TUTORIALES = [];
+let filtro = "Todos";
+
+function ordenarTitulo(t){
+  t = String(t || "").replace(/\s+/g, " ").trim();
+  const letras = t.replace(/[^A-Za-zÁÉÍÓÚÑáéíóúñ]/g, "");
+  if (letras && letras === letras.toUpperCase()) t = t.toLowerCase();   // TODO EN MAYÚSCULAS
+  t = t.replace(/[A-Za-zÁÉÍÓÚÑáéíóúñ]+/g, w => {
+    const nueva = TILDES[w.toLowerCase()];
+    if (!nueva) return w;
+    return w[0] === w[0].toUpperCase() ? nueva[0].toUpperCase() + nueva.slice(1) : nueva;
+  });
+  return t.charAt(0).toUpperCase() + t.slice(1);
+}
+const fechaCorta = f => { const d = new Date(f); return isNaN(d) ? "" : d.toLocaleDateString("es-PE", {month:"short", year:"numeric"}); };
+
+function pintarFiltros(){
+  const temas = ["Todos", ...new Set(TUTORIALES.map(t => t.tema))];
+  if (!temas.includes(filtro)) filtro = "Todos";
+  $("filtros").innerHTML = temas.map(t => `<button class="chip" type="button" aria-pressed="${t===filtro}" data-t="${esc(t)}">${esc(t)}</button>`).join("");
+}
+function pintarVideos(){
+  const lista = TUTORIALES.filter(t => filtro === "Todos" || t.tema === filtro);
+  $("videos").innerHTML = lista.length ? lista.map((t,i) => `
+    <article class="video">
+      <a class="mini" href="${esc(t.youtube)}" target="_blank" rel="noopener" aria-label="Ver ${esc(t.titulo)} en YouTube">${miniatura(t,i)}${foto(t)}${t.dur ? `<span class="dur">${esc(t.dur)}</span>` : ""}</a>
+      <div class="txt">
+        <div class="meta"><span class="tag">${esc(t.tema)}</span>${t.fecha ? `<span>${esc(fechaCorta(t.fecha))}</span>` : ""}</div>
+        <h3>${esc(t.titulo)}</h3>
+        <a class="ver" href="${esc(t.youtube)}" target="_blank" rel="noopener">▶ Ver en YouTube</a>
+      </div>
+    </article>`).join("") : `<p class="vacio">Todavía no hay videos en este tema.</p>`;
+}
+function pintarShorts(filas){
+  $("filas-shorts").innerHTML = filas.filter(f => f.videos.length).map(f => `
+    <h3 class="sub">Shorts: ${esc(f.nombre)}</h3>
+    <div class="shorts">${f.videos.map((t,i) => `
+      <a class="short" href="${esc(t.youtube)}" target="_blank" rel="noopener">
+        <div class="cap">${miniatura(t,i).replace('viewBox="0 0 320 180"','viewBox="100 0 120 180"')}${foto(t)}</div>
+        <p>${esc(t.titulo)}</p>
+      </a>`).join("")}</div>`).join("");
+}
+$("filtros").addEventListener("click", e => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  filtro = b.dataset.t;
+  for (const c of $("filtros").children) c.setAttribute("aria-pressed", c.dataset.t === filtro);
+  pintarVideos();
+});
+
+async function cargarCanal(){
+  $("videos").innerHTML = `<p class="vacio">Cargando los videos del canal…</p>`;
+  const respuestas = await Promise.all(LISTAS.map(l =>
+    fetch("/api/playlist?id=" + encodeURIComponent(l.id))
+      .then(r => r.ok ? r.json() : null).catch(() => null)));
+  const vistos = new Set(), videos = [], shorts = [];
+  respuestas.forEach((r, n) => {
+    if (!r || !Array.isArray(r.videos)) return;
+    const l = LISTAS[n];
+    const items = r.videos.filter(v => !vistos.has(v.id)).map(v => {
+      vistos.add(v.id);
+      return {titulo: ordenarTitulo(v.titulo), tema: l.nombre, fecha: v.fecha,
+              youtube: (l.tipo === "shorts" ? "https://www.youtube.com/shorts/" : "https://www.youtube.com/watch?v=") + v.id};
+    });
+    if (l.tipo === "shorts") shorts.push({nombre: l.nombre, videos: items}); else videos.push(...items);
+  });
+  if (respuestas.some(Boolean)){
+    TUTORIALES = videos.sort((a, b) => String(b.fecha).localeCompare(String(a.fecha)));
+    const fallidas = LISTAS.filter((l, n) => !respuestas[n]).map(l => l.nombre);
+    if (fallidas.length){ $("aviso").hidden = false; $("aviso").textContent = "No se pudo leer: " + fallidas.join(", ") + " (¿la lista es privada?)."; }
+  } else {
+    TUTORIALES = RESPALDO;     // vista previa o YouTube no responde: lista guardada
+  }
+  pintarFiltros(); pintarVideos(); pintarShorts(shorts);
+}
+cargarCanal();
+
+const ICONOS = {
+  rec:'<circle cx="17" cy="17" r="13" fill="none" stroke="#fff" stroke-width="3"/><circle cx="17" cy="17" r="6" fill="#fff"/>',
+  tel:'<rect x="9" y="3" width="16" height="28" rx="4" fill="none" stroke="#fff" stroke-width="3"/><path d="M14 9 q3-3 6 0 M12 6 q5-5 10 0" fill="none" stroke="#fff" stroke-width="2"/><circle cx="17" cy="25" r="2" fill="#fff"/>',
+  mic:'<rect x="12" y="3" width="10" height="18" rx="5" fill="#fff"/><path d="M7 16 q0 9 10 9 q10 0 10-9 M17 25 v6 M11 31 h12" fill="none" stroke="#fff" stroke-width="3"/>',
+  film:'<rect x="3" y="7" width="28" height="20" rx="3" fill="none" stroke="#fff" stroke-width="3"/><path d="M14 12 L22 17 L14 22 Z" fill="#fff"/>'
+};
+$("apps").innerHTML = PROGRAMAS.map(p => `
+  <article class="app">
+    <div class="ico" style="background:${p.color}"><svg viewBox="0 0 34 34" aria-hidden="true">${ICONOS[p.icono]}</svg></div>
+    <div>
+      <h3>${esc(p.nombre)} <span class="ver-num">${esc(p.ver)}</span>
+        <span class="estado ${p.estado}">${p.estado === "listo" ? "Disponible" : "En desarrollo"}</span></h3>
+      <p>${esc(p.texto)}</p>
+      <ul>${p.puntos.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+    </div>
+    <div class="pie">
+      ${p.descarga ? `<a class="btn rojo" href="${esc(p.descarga)}" target="_blank" rel="noopener">⬇ Descargar</a>`
+                   : `<span class="btn apagado">${p.estado === "listo" ? "Descarga pronto" : "Muy pronto"}</span>`}
+      <span>Windows 10/11 · Gratis</span>
+    </div>
+  </article>`).join("");
+
+for (const [lista, id] of [[PROGRAMAS, "programas"], [PROYECTOS, "proyectos"]]){
+  if (!lista.length){ $(id).hidden = true; const a = document.querySelector(`.nav a[href="#${id}"]`); if (a) a.hidden = true; }
+}
+$("casos").innerHTML = PROYECTOS.map(c => `
+  <article class="caso">
+    <div class="cifra">${esc(c.cifra)}<small>${esc(c.unidad)}</small></div>
+    <h3>${esc(c.titulo)}</h3>
+    <p>${esc(c.texto)}</p>
+  </article>`).join("");
+
+/* ---- la línea de tiempo de la portada ---- */
+const svg = $("linea");
+const PISTAS = [
+  {n:"Video", clips:[[0,.18,"Intro","#e0245e"],[.19,.78,"Tutorial","#c41d52"],[.79,1,"Final","#ff9f1c"]]},
+  {n:"Voz", clips:[[.04,.30,"Narración","#2fbf71",1],[.36,.60,"Explicación","#2fbf71",1],[.66,.95,"Cierre","#2fbf71",1]]},
+  {n:"Música", clips:[[0,.46,"Música de fondo","#7a5cff",1],[.48,1,"Música de fondo","#5b43d6",1]]},
+  {n:"Efectos", clips:[[.10,.22,"Transición","#3a2f42"],[.30,.40,"Zoom","#3a2f42"],[.52,.70,"Subtítulos","#3a2f42"],[.78,.90,"Transición","#3a2f42"]]},
+];
+let cabezal = 0.42, geo = {izq:92, ancho:100};
+function moverCabezal(){
+  const g = svg.querySelector("#cab"); if (g) g.setAttribute("transform", `translate(${geo.izq + cabezal * geo.ancho},0)`);
+}
+function dibujar(){
+  const W = svg.clientWidth, H = svg.clientHeight; if (!W || !H) return;
+  const angosto = W < 520, izq = angosto ? 0 : 92, regla = 26, alto = (H - regla - 8) / PISTAS.length, ancho = W - izq - 8;
+  let s = 99, out = `<rect width="${W}" height="${H}" fill="#17121a"/>`;
+  for (let k = 0; k <= 12; k++){
+    const x = izq + ancho * k / 12;
+    out += `<line x1="${x}" y1="6" x2="${x}" y2="${regla - 4}" stroke="#4a3f52" stroke-width="1"/>`;
+    if (k < 12 && (!angosto || k % 3 === 0)) out += `<text x="${x + 4}" y="15" fill="#8d808c" font-size="11" font-family="Inter">00:0${Math.floor(k/6)}:${String(k*10%60).padStart(2,"0")}</text>`;
+  }
+  PISTAS.forEach((p, i) => {
+    const y = regla + i * alto;
+    out += `<rect x="0" y="${y}" width="${W}" height="${alto - 4}" fill="${i % 2 ? "#1c1620" : "#1f1924"}"/>`;
+    if (!angosto) out += `<text x="12" y="${y + alto/2 + 4}" fill="#cfc4cc" font-size="13" font-weight="600" font-family="Inter">${p.n}</text>`;
+    p.clips.forEach(([a, b, nom, col, onda]) => {
+      const x = izq + a * ancho + 2, w = (b - a) * ancho - 4, h = alto - 12, yy = y + 4;
+      out += `<rect x="${x}" y="${yy}" width="${w}" height="${h}" rx="6" fill="${col}"/>`;
+      out += `<rect x="${x}" y="${yy}" width="${w}" height="3" rx="1.5" fill="#fff" opacity=".22"/>`;
+      if (onda){ for (let q = x + 6; q < x + w - 6; q += 5){ s = s*16807 % 2147483647; const v = 3 + (s % Math.max(4, h*0.42)); out += `<rect x="${q}" y="${yy + h*0.62 - v/2}" width="2.5" height="${v}" fill="#fff" opacity=".45"/>`; } }
+      const cabe = nom.length * 7.4 + 14 < w;
+      if (cabe) out += `<text x="${x + 8}" y="${yy + 17}" fill="#fff" font-size="13" font-weight="600" font-family="Inter">${nom}</text>`;
+    });
+  });
+  out += `<g id="cab"><line x1="0" y1="4" x2="0" y2="${H}" stroke="#fff" stroke-width="2"/><path d="M-7 2 h14 v8 l-7 7 l-7 -7 Z" fill="#fff"/></g>`;
+  svg.innerHTML = out;
+  geo = {izq, ancho};
+  moverCabezal();
+}
+const ro = new ResizeObserver(dibujar); ro.observe(svg);
+const quieto = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let t0 = performance.now();
+function avanzar(t){
+  const seg = ((t - t0) / 1000) % 24;
+  cabezal = 0.06 + 0.9 * seg / 24;
+  const total = Math.floor(seg * 2.5 * 30), f = total % 30, ss = Math.floor(total / 30);
+  $("tc").textContent = `00:0${Math.floor(ss/60)}:${String(ss%60).padStart(2,"0")}:${String(f).padStart(2,"0")}`;
+  moverCabezal(); requestAnimationFrame(avanzar);
+}
+if (!quieto) requestAnimationFrame(avanzar); else dibujar();
+}
+</script>
+</body>
+</html>

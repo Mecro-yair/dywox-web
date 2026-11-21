@@ -1,0 +1,40 @@
+WEB DE DYWOX
+============
+
+Archivos:
+  index.html        toda la página (diseño, textos y lista de temas)
+  api/playlist.js   función de Vercel que lee tus listas de YouTube
+
+LOS VIDEOS SE AGREGAN SOLOS
+La web muestra automáticamente los videos de tus listas de reproducción
+PÚBLICAS de YouTube:
+  - DYWOX Tutoriales           -> tema "Tutoriales"
+  - Circuitos- Presentaciones  -> tema "Electrónica digital"
+  - INGENIERIA ECONOMICA       -> tema "Ingeniería"
+Subes un video, lo agregas a una de esas listas y aparece en la web
+(Vercel lo actualiza cada 10 minutos). Para quitar un video de la web,
+sácalo de la lista. Las listas privadas (GAMES, C++) NO se muestran.
+Esto funciona en la web publicada en Vercel; al abrir index.html desde tu
+PC se ve la lista guardada de respaldo.
+
+AGREGAR UN TEMA NUEVO
+1. En YouTube crea una lista PÚBLICA y copia lo que va después de "list="
+   en su enlace (por ejemplo PLYY4F6Uosy4I).
+2. Abre index.html con el Bloc de notas o VS Code, busca
+       EDITA AQUÍ EL CONTENIDO DE TU WEB
+   y en LISTAS copia una línea, cambia el id y el nombre.
+   Usa tipo:"shorts" si la lista es de Shorts (se muestran en una fila).
+
+CÓMO PUBLICARLA GRATIS EN VERCEL
+1. Crea una cuenta en https://vercel.com (plan Hobby, gratis).
+2. Sube ESTA CARPETA COMPLETA (con la carpeta api). La forma más fácil:
+   súbela a un repositorio de GitHub y en Vercel elige Add New > Project
+   e importa ese repositorio (Framework: Other). O desde una terminal en
+   esta carpeta:
+       npm i -g vercel
+       vercel --prod
+3. Vercel te da una dirección https://...vercel.app. Luego puedes conectar
+   un dominio propio en Settings > Domains.
+Si usas GitHub, cada cambio que subas se publica solo.
+
+Recuerda: el plan Hobby es para uso personal y no comercial.
