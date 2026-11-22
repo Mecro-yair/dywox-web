@@ -4,18 +4,48 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DYWOX</title>
-<meta name="description" content="DYWOX: tutoriales en video, programas y proyectos.">
+<meta name="description" content="DYWOX: tutoriales en video de electrónica, programación e ingeniería.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#0f0c14">
+<meta property="og:title" content="DYWOX">
+<meta property="og:description" content="Tutoriales de electrónica, programación e ingeniería.">
+<meta property="og:image" content="https://dywox.vercel.app/og.png">
+<meta property="og:url" content="https://dywox.vercel.app">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* VOICE  occasion: el sitio de un pequeño estudio que crea herramientas de audio y video
    IDEA   la pantalla de un editor de video: pistas, clips, cabezal de reproducción, luz REC
-   PICTURE una línea de tiempo grande en la portada; cada clip es un programa de DYWOX
-   COLOUR rojo REC #e0245e en bandas completas, tinta casi negra, verde "en vivo" como acento
+   PICTURE la máscara del logo de DYWOX en la portada y una línea de tiempo grande debajo
+   COLOUR negro de fondo en bandas completas + rojo REC #e0245e de acento; la máscara con sus luces
    TYPE   Archivo 800 para títulos y código de tiempo + Inter para el texto
-   LAYOUT título arriba a lo ancho, editor debajo a todo el ancho; en el teléfono se apila igual */
-:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0f0c10);--ink:light-dark(#141015,#f3eef2);--mute:light-dark(#5e5560,#b3a8b2);--rec:#e0245e;--rec2:#b81a4b;--live:#2fbf71;--panel:#17121a;--panel2:#221b26;--line:light-dark(#ece6eb,#2a2230);--card:light-dark(#faf7f9,#18131a)}
+   LAYOUT título y texto a la izquierda, máscara a la derecha, editor debajo a todo el ancho */
+/* ================== COLORES DE LA WEB (EDITA AQUÍ) ==================
+   --fondo   color de la barra de arriba, la portada y "Suscríbete"
+   --acento  color de botones, REC, punto del logo, primer clip y filtros
+   --acento-texto  acento un poco más oscuro (textos y etiquetas sobre blanco)
+   --acento-claro  acento clarito (textos sobre fondo oscuro)
+   --acento-suave  acento muy suave (al pasar el mouse por el botón de YouTube)
+   Para cambiar de color, reemplaza las 4 líneas de --acento por una de estas:
+   Rojo:      --acento:#e0245e; --acento-texto:#b81a4b; --acento-claro:#ff8fb0; --acento-suave:#ffe3ec;
+   Morado:    --acento:#8b5cf6; --acento-texto:#7c3aed; --acento-claro:#c4b5fd; --acento-suave:#ede9fe;
+   Azul:      --acento:#3b82f6; --acento-texto:#2563eb; --acento-claro:#93c5fd; --acento-suave:#dbeafe;
+   Turquesa:  --acento:#06b6d4; --acento-texto:#0e7490; --acento-claro:#67e8f9; --acento-suave:#cffafe;
+   Verde:     --acento:#22c55e; --acento-texto:#15803d; --acento-claro:#86efac; --acento-suave:#dcfce7;
+   Rosa:      --acento:#ec4899; --acento-texto:#db2777; --acento-claro:#f9a8d4; --acento-suave:#fce7f3;
+   Naranja:   --acento:#f97316; --acento-texto:#c2410c; --acento-claro:#fdba74; --acento-suave:#ffedd5;
+   Fondo de color en vez de negro: pon en --fondo el mismo valor que --acento.
+   ====================================================================== */
+:root{
+  --fondo:#0f0c14;
+  --acento:#e0245e; --acento-texto:#b81a4b; --acento-claro:#ff8fb0; --acento-suave:#ffe3ec;
+}
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0f0c10);--ink:light-dark(#141015,#f3eef2);--mute:light-dark(#5e5560,#b3a8b2);--rec:var(--fondo);--rec2:var(--acento-texto);--rec-claro:var(--acento-claro);--rec-suave:var(--acento-suave);--clip:var(--acento);--live:#2fbf71;--panel:#17121a;--panel2:#221b26;--line:light-dark(#ece6eb,#2a2230);--card:light-dark(#faf7f9,#18131a)}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
 html{scroll-behavior:smooth;scroll-padding-top:72px}
@@ -32,16 +62,18 @@ p{margin:0}
 .nav{position:sticky;top:0;z-index:20;background:var(--rec);color:#fff;padding:12px max(5vw,16px)}
 .nav .wrap{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
 .logo{display:flex;align-items:center;gap:10px;font:800 22px/1 Archivo,sans-serif;text-decoration:none;letter-spacing:.02em}
-.logo i{width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.25)}
+.logo .cara{width:30px;height:30px;flex:none}
 .nav nav{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
 .nav nav a{text-decoration:none;font-weight:600;padding:10px 12px;border-radius:8px;min-height:44px;display:inline-flex;align-items:center}
 .nav nav a:hover,.nav nav a:focus-visible{background:rgba(255,255,255,.16);outline:none}
 .nav nav a.yt{background:#fff;color:var(--rec2);margin-left:6px}
-.nav nav a.yt:hover,.nav nav a.yt:focus-visible{background:#ffe3ec}
+.nav nav a.yt:hover,.nav nav a.yt:focus-visible{background:var(--rec-suave)}
 .hero{background:var(--rec);color:#fff;padding-top:clamp(24px,4vw,48px)}
-.hero-top{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:clamp(20px,4vw,56px);align-items:end;margin-bottom:clamp(22px,3vw,36px)}
+.hero-top{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(20px,4vw,56px);align-items:center;margin-bottom:clamp(18px,2.5vw,28px)}
 .hero h1{font-size:clamp(38px,5.6vw,68px);font-weight:800}
-.hero .lead{font-size:18px;max-width:46ch;opacity:.95}
+.hero .lead{font-size:18px;max-width:46ch;opacity:.95;margin-top:18px}
+.mascara{width:100%;max-width:300px;justify-self:end;aspect-ratio:1}
+.mascara svg{width:100%;height:100%;display:block;overflow:visible}
 .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
 .btn{display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:12px 20px;border-radius:10px;font-weight:600;text-decoration:none;border:0;cursor:pointer;font-size:16px}
 .btn.claro{background:#fff;color:var(--rec2)}
@@ -51,7 +83,7 @@ p{margin:0}
 .editor{background:var(--panel);border-radius:16px 16px 0 0;padding:12px 12px 0;box-shadow:0 -1px 0 rgba(255,255,255,.08) inset}
 .editor-bar{display:flex;align-items:center;gap:10px;color:#cfc4cc;font:600 13px/1 Inter,sans-serif;padding:4px 6px 12px;flex-wrap:wrap}
 .editor-bar b{font:800 15px/1 Archivo,sans-serif;color:#fff;font-variant-numeric:tabular-nums}
-.editor-bar .rec{display:inline-flex;align-items:center;gap:6px;color:#fff;background:var(--rec);padding:5px 9px;border-radius:6px}
+.editor-bar .rec{display:inline-flex;align-items:center;gap:6px;color:#fff;background:var(--clip);padding:5px 9px;border-radius:6px}
 .editor-bar .rec::before{content:"";width:8px;height:8px;border-radius:50%;background:#fff}
 .editor-bar span:last-child{margin-left:auto}
 .fig{position:relative;min-height:clamp(250px,30vw,330px)}
@@ -79,8 +111,8 @@ h3.sub{margin-top:clamp(36px,5vw,56px);font-size:24px;font-weight:800}
 .dur{position:absolute;right:10px;bottom:10px;background:rgba(0,0,0,.75);color:#fff;font:600 13px Inter,sans-serif;padding:3px 7px;border-radius:5px;white-space:nowrap}
 .video .txt{padding:16px 16px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
 .meta{display:flex;gap:8px;flex-wrap:wrap;font-size:13px;color:var(--mute)}
-.tag{font-size:13px;font-weight:600;padding:3px 9px;border-radius:6px;background:color-mix(in srgb,var(--rec) 12%,transparent);color:light-dark(var(--rec2),#ff8fb0)}
-.video .ver{margin-top:auto;padding-top:6px;font-weight:600;color:light-dark(var(--rec2),#ff8fb0);text-decoration:none}
+.tag{font-size:13px;font-weight:600;padding:3px 9px;border-radius:6px;background:color-mix(in srgb,var(--rec) 12%,transparent);color:light-dark(var(--rec2),var(--rec-claro))}
+.video .ver{margin-top:auto;padding-top:6px;font-weight:600;color:light-dark(var(--rec2),var(--rec-claro));text-decoration:none}
 .video .ver[aria-disabled=true]{color:var(--mute)}
 .nota{font-size:13px;color:var(--mute);margin-top:16px}
 .vacio{grid-column:1/-1;padding:28px;text-align:center;color:var(--mute);border:1.5px dashed var(--line);border-radius:14px}
@@ -118,8 +150,14 @@ h3.sub{margin-top:clamp(36px,5vw,56px);font-size:24px;font-weight:800}
 footer{background:var(--panel);color:#b9adb7;font-size:14px}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 footer a{text-decoration:none;color:#f3eef2}
+/* botones y detalles con el color de acento (se ven bien sobre el fondo negro) */
+.btn.claro,.nav nav a.yt,.btn.rojo{background:var(--clip);color:#fff}
+.nav nav a.yt:hover,.nav nav a.yt:focus-visible{background:var(--clip);filter:brightness(1.12)}
+.btn.borde{box-shadow:inset 0 0 0 2px var(--clip)}
+.paso b{background:var(--clip)}
+.chip[aria-pressed=true]{background:var(--clip);border-color:var(--clip);color:#fff}
 @media(max-width:960px){.grid,.bitacora{grid-template-columns:repeat(2,minmax(0,1fr))}.prog{grid-template-columns:minmax(0,1fr)}}
-@media(max-width:760px){.hero-top,.nos{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:760px){.hero-top,.nos{grid-template-columns:minmax(0,1fr)}.mascara{max-width:200px;justify-self:center;order:-1}}
 @media(max-width:600px){.nav{position:static}html{scroll-padding-top:0}.grid,.bitacora{grid-template-columns:minmax(0,1fr)}.nav nav{margin-left:0;width:100%}.nav nav a{padding:8px 10px}.app{grid-template-columns:minmax(0,1fr)}.editor-bar span:last-child{display:none}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
@@ -127,7 +165,7 @@ footer a{text-decoration:none;color:#f3eef2}
 <body>
 <header class="nav">
   <div class="wrap">
-    <a class="logo" href="#inicio" aria-label="DYWOX, inicio"><i></i>DYWOX</a>
+    <a class="logo" href="#inicio" aria-label="DYWOX, inicio"><svg class="cara" viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="32" rx="27" ry="29" fill="#05040a" stroke="#a855f7" stroke-width="3"/><g stroke-linecap="round" stroke-width="5.5"><path d="M15 19 l10 10 M25 19 l-10 10" stroke="#a855f7"/><path d="M39 19 l10 10 M49 19 l-10 10" stroke="#84ff52"/></g><path d="M18 43 Q32 49 46 43" fill="none" stroke="#38bdf8" stroke-width="4" stroke-linecap="round"/></svg>DYWOX</a>
     <nav aria-label="Secciones">
       <a href="#tutoriales">Tutoriales</a>
       <a href="#programas">Programas</a>
@@ -141,14 +179,15 @@ footer a{text-decoration:none;color:#f3eef2}
 <section class="hero band" id="inicio" style="padding-bottom:0">
   <div class="wrap">
     <div class="hero-top">
-      <h1>Tutoriales, programas y proyectos que hacemos</h1>
       <div>
+        <h1>Tutoriales, programas y proyectos que hacemos</h1>
         <p class="lead">En DYWOX compartimos tutoriales en video, programas y los proyectos que hacemos, explicados paso a paso para que también puedas hacerlos.</p>
         <div class="btns">
           <a class="btn claro" href="https://www.youtube.com/@dywox-3" target="_blank" rel="noopener">▶ Ver el canal en YouTube</a>
           <a class="btn borde" href="#tutoriales">Ver tutoriales</a>
         </div>
       </div>
+      <div class="mascara" id="mascara"></div>
     </div>
     <div class="editor" aria-label="Línea de tiempo de un editor de video">
       <div class="editor-bar"><span class="rec">REC</span><b id="tc">00:00:00:00</b><span>proyecto_dywox.dyx · 30 fps</span></div>
@@ -225,21 +264,24 @@ footer a{text-decoration:none;color:#f3eef2}
 <script>
 {
 /* ============ EDITA AQUÍ EL CONTENIDO DE TU WEB ============
-   LISTAS: tus listas de reproducción PÚBLICAS de YouTube. La web muestra sola los
-   videos que tengan, cada vez que alguien la abre (en la web publicada en Vercel).
-   - id: lo que va después de "list=" en el enlace de la lista.
-   - nombre: cómo se llama el tema en la web (botón de filtro).
-   - tipo: "videos" (tarjetas) o "shorts" (fila de videos verticales).
-   Para agregar un tema nuevo: crea la lista en YouTube (pública), copia una línea y
-   cambia el id y el nombre. Para quitar un video de la web, sácalo de la lista.   */
-const LISTAS = [
-  {id:"PLYY4F6Uosy4I", nombre:"Tutoriales", tipo:"videos"},          // DYWOX Tutoriales
-  {id:"PLIOE6ZHiv-cg", nombre:"Electrónica digital", tipo:"videos"}, // Circuitos- Presentaciones
-  {id:"PLJBPqw9b-ivs", nombre:"Ingeniería", tipo:"videos"},          // INGENIERIA ECONOMICA
-];
+   La web busca SOLA todas las listas de reproducción PÚBLICAS de tu canal y
+   muestra sus videos (en la web publicada en Vercel; se actualiza cada 10 min).
+   Cada lista es un tema (botón de filtro). Una lista nueva aparece sola.
+   - EXCLUIR: listas públicas que NO quieres en la web (nombre exacto de YouTube).
+   - NOMBRES: cómo se ve el nombre de una lista en la web. Las listas que no estén
+     aquí se muestran con su nombre de YouTube. El orden de aquí es el de los botones.
+   - SHORTS: listas que son de Shorts (se muestran en una fila de videos verticales). */
+const EXCLUIR = ["GAMES"];
+const NOMBRES = {
+  "DYWOX Tutoriales": "Tutoriales",
+  "Circuitos- Presentaciones": "Electrónica digital",
+  "C++": "Programación",
+  "INGENIERIA ECONOMICA": "Ingeniería",
+};
+const SHORTS = [];
 // Arreglos para títulos escritos todo en MAYÚSCULAS o sin tildes (opcional)
 const TILDES = {como:"cómo", verificacion:"verificación", economica:"económica", tecnologicos:"tecnológicos",
-  decadas:"décadas", sincrono:"síncrono", ingenieria:"ingeniería", rotacion:"rotación"};
+  decadas:"décadas", sincrono:"síncrono", ingenieria:"ingeniería", rotacion:"rotación", basico:"básico", electronica:"electrónica"};
 // Lista guardada: se usa solo si no se puede leer YouTube (por ejemplo en la vista previa)
 const RESPALDO = [
   {titulo:"Cómo rotar filas", tema:"Tutoriales", youtube:"https://www.youtube.com/watch?v=t3QDpAtXkXI"},
@@ -253,6 +295,7 @@ const RESPALDO = [
   {titulo:"Prueba de funcionamiento: contador binario ascendente", tema:"Electrónica digital", youtube:"https://www.youtube.com/watch?v=6mRJP-vVV94"},
   {titulo:"Codificador y decodificador", tema:"Electrónica digital", youtube:"https://www.youtube.com/watch?v=745ucVaFrF4"},
   {titulo:"Sumador y restador con circuitos integrados", tema:"Electrónica digital", youtube:"https://www.youtube.com/watch?v=4HHgHTkVhWs"},
+  {titulo:"Proyecto Veterinaria en C++", tema:"Programación", youtube:"https://www.youtube.com/watch?v=nj2Xw3EyQR0"},
 ];
 // Programas de DYWOX: copia este modelo dentro de los corchetes para agregar uno.
 // {nombre:"Nombre", ver:"v1.0", estado:"listo", color:"#e0245e", icono:"rec",
@@ -288,7 +331,8 @@ let filtro = "Todos";
 function ordenarTitulo(t){
   t = String(t || "").replace(/\s+/g, " ").trim();
   const letras = t.replace(/[^A-Za-zÁÉÍÓÚÑáéíóúñ]/g, "");
-  if (letras && letras === letras.toUpperCase()) t = t.toLowerCase();   // TODO EN MAYÚSCULAS
+  // TODO EN MAYÚSCULAS -> normal, pero C++, UP/DOWN, C# y parecidos se quedan igual
+  if (letras && letras === letras.toUpperCase()) t = t.split(" ").map(w => /[+#\/]/.test(w) ? w : w.toLowerCase()).join(" ");
   t = t.replace(/[A-Za-zÁÉÍÓÚÑáéíóúñ]+/g, w => {
     const nueva = TILDES[w.toLowerCase()];
     if (!nueva) return w;
@@ -299,7 +343,9 @@ function ordenarTitulo(t){
 const fechaCorta = f => { const d = new Date(f); return isNaN(d) ? "" : d.toLocaleDateString("es-PE", {month:"short", year:"numeric"}); };
 
 function pintarFiltros(){
-  const temas = ["Todos", ...new Set(TUTORIALES.map(t => t.tema))];
+  const orden = Object.values(NOMBRES);
+  const temas = ["Todos", ...[...new Set(TUTORIALES.map(t => t.tema))].sort((a, b) =>
+    ((orden.indexOf(a) + 1 || 999) - (orden.indexOf(b) + 1 || 999)) || a.localeCompare(b))];
   if (!temas.includes(filtro)) filtro = "Todos";
   $("filtros").innerHTML = temas.map(t => `<button class="chip" type="button" aria-pressed="${t===filtro}" data-t="${esc(t)}">${esc(t)}</button>`).join("");
 }
@@ -333,27 +379,29 @@ $("filtros").addEventListener("click", e => {
 
 async function cargarCanal(){
   $("videos").innerHTML = `<p class="vacio">Cargando los videos del canal…</p>`;
-  const respuestas = await Promise.all(LISTAS.map(l =>
-    fetch("/api/playlist?id=" + encodeURIComponent(l.id))
-      .then(r => r.ok ? r.json() : null).catch(() => null)));
-  const vistos = new Set(), videos = [], shorts = [];
-  respuestas.forEach((r, n) => {
-    if (!r || !Array.isArray(r.videos)) return;
-    const l = LISTAS[n];
-    const items = r.videos.filter(v => !vistos.has(v.id)).map(v => {
-      vistos.add(v.id);
-      return {titulo: ordenarTitulo(v.titulo), tema: l.nombre, fecha: v.fecha,
-              youtube: (l.tipo === "shorts" ? "https://www.youtube.com/shorts/" : "https://www.youtube.com/watch?v=") + v.id};
-    });
-    if (l.tipo === "shorts") shorts.push({nombre: l.nombre, videos: items}); else videos.push(...items);
-  });
-  if (respuestas.some(Boolean)){
-    TUTORIALES = videos.sort((a, b) => String(b.fecha).localeCompare(String(a.fecha)));
-    const fallidas = LISTAS.filter((l, n) => !respuestas[n]).map(l => l.nombre);
-    if (fallidas.length){ $("aviso").hidden = false; $("aviso").textContent = "No se pudo leer: " + fallidas.join(", ") + " (¿la lista es privada?)."; }
-  } else {
-    TUTORIALES = RESPALDO;     // vista previa o YouTube no responde: lista guardada
+  let datos = null;
+  try { const r = await fetch("/api/canal"); if (r.ok) datos = await r.json(); } catch (e) {}
+  const fuera = new Set(EXCLUIR.map(n => n.trim().toLowerCase()));
+  const listas = (datos && Array.isArray(datos.listas) ? datos.listas : [])
+    .filter(l => !fuera.has(String(l.nombre).trim().toLowerCase()));
+  if (!listas.length){            // vista previa o YouTube no responde: lista guardada
+    TUTORIALES = RESPALDO; pintarFiltros(); pintarVideos(); pintarShorts([]); return;
   }
+  const orden = Object.keys(NOMBRES);
+  const pos = n => { const k = orden.indexOf(n); return k < 0 ? 999 : k; };
+  listas.sort((a, b) => pos(a.nombre) - pos(b.nombre) || String(a.nombre).localeCompare(String(b.nombre)));
+  const vistos = new Set(), videos = [], shorts = [];
+  for (const l of listas){
+    const tema = NOMBRES[l.nombre] || ordenarTitulo(l.nombre);
+    const esShort = SHORTS.includes(l.nombre);
+    const items = l.videos.filter(v => !vistos.has(v.id)).map(v => {
+      vistos.add(v.id);
+      return {titulo: ordenarTitulo(v.titulo), tema, fecha: v.fecha,
+              youtube: (esShort ? "https://www.youtube.com/shorts/" : "https://www.youtube.com/watch?v=") + v.id};
+    });
+    if (esShort) shorts.push({nombre: tema, videos: items}); else videos.push(...items);
+  }
+  TUTORIALES = videos.sort((a, b) => String(b.fecha).localeCompare(String(a.fecha)));
   pintarFiltros(); pintarVideos(); pintarShorts(shorts);
 }
 cargarCanal();
@@ -390,10 +438,29 @@ $("casos").innerHTML = PROYECTOS.map(c => `
     <p>${esc(c.texto)}</p>
   </article>`).join("");
 
+/* ---- la máscara del logo de DYWOX ---- */
+(function(){
+  const brillo = 'filter="url(#luz)"';
+  const ojo = (x, col) => `<g ${brillo} stroke="${col}" stroke-width="10" stroke-linecap="round"><path d="M${x-22} 158 l44 44 M${x+22} 158 l-44 44"/></g>`;
+  let puntos = "";
+  for (let i = 0; i < 7; i++) puntos += `<path d="M${143+i*19} 262 v22" stroke="#38bdf8" stroke-width="5" stroke-linecap="round"/>`;
+  $("mascara").innerHTML = `<svg viewBox="0 0 400 400" role="img" aria-label="Máscara del logo de DYWOX">
+    <defs><filter id="luz" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <linearGradient id="capucha" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a2033"/><stop offset="1" stop-color="#120d16"/></linearGradient></defs>
+    <ellipse cx="200" cy="392" rx="150" ry="14" fill="#000" opacity=".22"/>
+    <path d="M200 18 C 92 18 40 120 46 236 C 50 320 92 378 120 392 L 280 392 C 308 378 350 320 354 236 C 360 120 308 18 200 18 Z" fill="url(#capucha)"/>
+    <path d="M200 18 C 92 18 40 120 46 236 C 50 320 92 378 120 392" fill="none" stroke="#38bdf8" stroke-width="4" ${brillo} opacity=".9"/>
+    <path d="M200 18 C 308 18 360 120 354 236 C 350 320 308 378 280 392" fill="none" stroke="#a855f7" stroke-width="4" ${brillo} opacity=".9"/>
+    <ellipse cx="200" cy="222" rx="112" ry="132" fill="#05040a"/>
+    ${ojo(150, "#a855f7")}${ojo(250, "#84ff52")}
+    <path d="M136 272 Q 200 300 264 272" fill="none" stroke="#38bdf8" stroke-width="6" stroke-linecap="round" ${brillo}/>
+    ${puntos}</svg>`;
+})();
+
 /* ---- la línea de tiempo de la portada ---- */
 const svg = $("linea");
 const PISTAS = [
-  {n:"Video", clips:[[0,.18,"Intro","#e0245e"],[.19,.78,"Tutorial","#c41d52"],[.79,1,"Final","#ff9f1c"]]},
+  {n:"Video", clips:[[0,.18,"Intro","--clip"],[.19,.78,"Tutorial","--rec2"],[.79,1,"Final","#ff9f1c"]]},
   {n:"Voz", clips:[[.04,.30,"Narración","#2fbf71",1],[.36,.60,"Explicación","#2fbf71",1],[.66,.95,"Cierre","#2fbf71",1]]},
   {n:"Música", clips:[[0,.46,"Música de fondo","#7a5cff",1],[.48,1,"Música de fondo","#5b43d6",1]]},
   {n:"Efectos", clips:[[.10,.22,"Transición","#3a2f42"],[.30,.40,"Zoom","#3a2f42"],[.52,.70,"Subtítulos","#3a2f42"],[.78,.90,"Transición","#3a2f42"]]},
@@ -416,6 +483,7 @@ function dibujar(){
     out += `<rect x="0" y="${y}" width="${W}" height="${alto - 4}" fill="${i % 2 ? "#1c1620" : "#1f1924"}"/>`;
     if (!angosto) out += `<text x="12" y="${y + alto/2 + 4}" fill="#cfc4cc" font-size="13" font-weight="600" font-family="Inter">${p.n}</text>`;
     p.clips.forEach(([a, b, nom, col, onda]) => {
+      if (col.startsWith("--")) col = getComputedStyle(document.documentElement).getPropertyValue(col).trim();
       const x = izq + a * ancho + 2, w = (b - a) * ancho - 4, h = alto - 12, yy = y + 4;
       out += `<rect x="${x}" y="${yy}" width="${w}" height="${h}" rx="6" fill="${col}"/>`;
       out += `<rect x="${x}" y="${yy}" width="${w}" height="3" rx="1.5" fill="#fff" opacity=".22"/>`;
@@ -430,6 +498,7 @@ function dibujar(){
   moverCabezal();
 }
 const ro = new ResizeObserver(dibujar); ro.observe(svg);
+window.redibujar = dibujar;
 const quieto = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 let t0 = performance.now();
 function avanzar(t){

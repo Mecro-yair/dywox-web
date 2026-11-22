@@ -1,40 +1,41 @@
-WEB DE DYWOX
-============
+WEB DE DYWOX  -  https://dywox.vercel.app
+=========================================
 
 Archivos:
-  index.html        toda la página (diseño, textos y lista de temas)
-  api/playlist.js   función de Vercel que lee tus listas de YouTube
+  index.html        toda la página (diseño, textos y ajustes)
+  api/canal.js      busca solas las listas públicas de tu canal de YouTube
+  api/playlist.js   lee una lista suelta (queda de reserva)
 
-LOS VIDEOS SE AGREGAN SOLOS
-La web muestra automáticamente los videos de tus listas de reproducción
-PÚBLICAS de YouTube:
-  - DYWOX Tutoriales           -> tema "Tutoriales"
-  - Circuitos- Presentaciones  -> tema "Electrónica digital"
-  - INGENIERIA ECONOMICA       -> tema "Ingeniería"
-Subes un video, lo agregas a una de esas listas y aparece en la web
-(Vercel lo actualiza cada 10 minutos). Para quitar un video de la web,
-sácalo de la lista. Las listas privadas (GAMES, C++) NO se muestran.
-Esto funciona en la web publicada en Vercel; al abrir index.html desde tu
-PC se ve la lista guardada de respaldo.
+TODO SE AGREGA SOLO
+La web busca TODAS las listas de reproducción PÚBLICAS del canal @dywox-3
+y muestra sus videos. Cada lista es un tema (botón de filtro).
+  - Video nuevo: agrégalo a una lista pública -> aparece en la web.
+  - Lista nueva: créala PÚBLICA en YouTube -> aparece como tema nuevo.
+  - Para quitar un video: sácalo de la lista.
+Vercel lo actualiza cada 10 minutos. Las listas privadas no se muestran.
+(Al abrir index.html desde tu PC se ve una lista guardada de respaldo.)
 
-AGREGAR UN TEMA NUEVO
-1. En YouTube crea una lista PÚBLICA y copia lo que va después de "list="
-   en su enlace (por ejemplo PLYY4F6Uosy4I).
-2. Abre index.html con el Bloc de notas o VS Code, busca
-       EDITA AQUÍ EL CONTENIDO DE TU WEB
-   y en LISTAS copia una línea, cambia el id y el nombre.
-   Usa tipo:"shorts" si la lista es de Shorts (se muestran en una fila).
+AJUSTES (abre index.html y busca: EDITA AQUÍ EL CONTENIDO DE TU WEB)
+  - EXCLUIR: listas públicas que NO quieres en la web. Ahora: "GAMES".
+  - NOMBRES: cómo se ve el nombre de cada lista en la web, y el orden de
+    los botones. Ejemplo: "INGENIERIA ECONOMICA": "Ingeniería".
+    Una lista que no esté aquí se muestra con su nombre de YouTube.
+  - SHORTS: listas que son de Shorts (se ven en una fila vertical).
 
-CÓMO PUBLICARLA GRATIS EN VERCEL
-1. Crea una cuenta en https://vercel.com (plan Hobby, gratis).
-2. Sube ESTA CARPETA COMPLETA (con la carpeta api). La forma más fácil:
-   súbela a un repositorio de GitHub y en Vercel elige Add New > Project
-   e importa ese repositorio (Framework: Other). O desde una terminal en
-   esta carpeta:
-       npm i -g vercel
-       vercel --prod
-3. Vercel te da una dirección https://...vercel.app. Luego puedes conectar
-   un dominio propio en Settings > Domains.
-Si usas GitHub, cada cambio que subas se publica solo.
+CAMBIAR LOS COLORES
+Abre index.html y busca:  COLORES DE LA WEB (EDITA AQUÍ)
+Ahí hay dos cosas:
+  --fondo   el color de la barra, la portada y "Suscríbete" (ahora negro)
+  --acento  el color de botones, REC, filtros, etc. (ahora rojo)
+Justo encima hay una lista de colores listos (Rojo, Morado, Azul,
+Turquesa, Verde, Rosa, Naranja). Copia la línea del color que quieras y
+reemplaza la línea que empieza con "--acento:". Guarda y súbelo a GitHub.
+Si quieres el fondo de color en vez de negro, pon en --fondo el mismo
+código que en --acento (por ejemplo --fondo:#e0245e;).
 
-Recuerda: el plan Hobby es para uso personal y no comercial.
+PUBLICAR CAMBIOS
+Sube los archivos cambiados a tu repositorio de GitHub (Macro-yair/dywox-web)
+con "Add file > Upload files". Vercel publica la versión nueva solo.
+
+DOMINIO PROPIO (dywox.com)
+En Vercel: tu proyecto > Settings > Domains. El dominio se compra aparte.
