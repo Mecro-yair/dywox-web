@@ -69,11 +69,22 @@ p{margin:0}
 .nav nav a.yt{background:#fff;color:var(--rec2);margin-left:6px}
 .nav nav a.yt:hover,.nav nav a.yt:focus-visible{background:var(--rec-suave)}
 .hero{background:var(--rec);color:#fff;padding-top:clamp(24px,4vw,48px)}
-.hero-top{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(20px,4vw,56px);align-items:center;margin-bottom:clamp(18px,2.5vw,28px)}
+.hero-top{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(20px,4vw,56px);align-items:center;margin-bottom:clamp(18px,2.5vw,28px)}
 .hero h1{font-size:clamp(38px,5.6vw,68px);font-weight:800}
 .hero .lead{font-size:18px;max-width:46ch;opacity:.95;margin-top:18px}
-.mascara{width:100%;max-width:300px;justify-self:end;aspect-ratio:1}
-.mascara svg{width:100%;height:100%;display:block;overflow:visible}
+.equipo{position:relative;width:100%;max-width:560px;justify-self:end;aspect-ratio:900/548;}
+.equipo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;user-select:none;-webkit-user-drag:none}
+.equipo .flota{position:absolute;inset:0}
+.equipo img{transition:opacity .35s ease}
+.equipo .caras{opacity:0}
+.equipo.sin .caras{opacity:1}.equipo.sin .masc{opacity:0}
+.equipo::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.06) 0 1px,transparent 1px 3px);opacity:0;mix-blend-mode:overlay}
+.equipo.glitch::after{animation:rayas .35s linear 1}
+.equipo.glitch .flota{animation:destello .35s ease 1}
+.equipo .pista{position:absolute;left:50%;bottom:-4px;transform:translateX(-50%);font:600 13px Inter,sans-serif;color:rgba(255,255,255,.55);white-space:nowrap;pointer-events:none}
+@keyframes rayas{0%,100%{opacity:0}30%,70%{opacity:1}}
+@keyframes destello{0%,100%{filter:none}40%{filter:brightness(1.35) saturate(1.4)}}
+@media(prefers-reduced-motion:reduce){.equipo.glitch::after,.equipo.glitch .flota{animation:none}}
 .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
 .btn{display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:12px 20px;border-radius:10px;font-weight:600;text-decoration:none;border:0;cursor:pointer;font-size:16px}
 .btn.claro{background:#fff;color:var(--rec2)}
@@ -157,8 +168,48 @@ footer a{text-decoration:none;color:#f3eef2}
 .paso b{background:var(--clip)}
 .chip[aria-pressed=true]{background:var(--clip);border-color:var(--clip);color:#fff}
 @media(max-width:960px){.grid,.bitacora{grid-template-columns:repeat(2,minmax(0,1fr))}.prog{grid-template-columns:minmax(0,1fr)}}
-@media(max-width:760px){.hero-top,.nos{grid-template-columns:minmax(0,1fr)}.mascara{max-width:200px;justify-self:center;order:-1}}
-@media(max-width:600px){.nav{position:static}html{scroll-padding-top:0}.grid,.bitacora{grid-template-columns:minmax(0,1fr)}.nav nav{margin-left:0;width:100%}.nav nav a{padding:8px 10px}.app{grid-template-columns:minmax(0,1fr)}.editor-bar span:last-child{display:none}}
+@media(max-width:760px){.hero-top,.nos{grid-template-columns:minmax(0,1fr)}.equipo{max-width:420px;justify-self:center;order:-1}}
+@media(max-width:600px){html{scroll-padding-top:70px}.grid,.bitacora{grid-template-columns:minmax(0,1fr)}.nav nav{margin-left:0;width:100%}.nav nav a{padding:8px 10px}.app{grid-template-columns:minmax(0,1fr)}.editor-bar span:last-child{display:none}}
+.yt-movil,.burger{display:none}
+.btn.mas{display:none;margin:16px auto 0;color:var(--ink);box-shadow:inset 0 0 0 2px var(--line);background:transparent}
+@media(max-width:600px){
+  .nav .wrap{flex-wrap:nowrap;gap:10px;position:relative}
+  .yt-movil{display:inline-flex;margin-left:auto;align-items:center;min-height:40px;padding:8px 12px;border-radius:8px;background:var(--clip);color:#fff;font-weight:600;font-size:15px;text-decoration:none;white-space:nowrap}
+  .burger{display:inline-flex;flex-direction:column;justify-content:center;gap:5px;width:44px;height:44px;padding:0 11px;border:0;border-radius:8px;background:rgba(255,255,255,.08);cursor:pointer}
+  .burger span{display:block;height:2.5px;border-radius:2px;background:#fff;transition:transform .25s,opacity .2s}
+  .burger[aria-expanded=true] span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+  .burger[aria-expanded=true] span:nth-child(2){opacity:0}
+  .burger[aria-expanded=true] span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+  .nav nav{position:absolute;top:calc(100% + 12px);left:-16px;right:-16px;margin:0;width:auto;flex-direction:column;flex-wrap:nowrap;gap:0;background:var(--rec);border-top:1px solid rgba(255,255,255,.1);box-shadow:0 18px 30px rgba(0,0,0,.45);padding:8px 16px 14px;visibility:hidden;opacity:0;transform:translateY(-8px);transition:opacity .2s,transform .2s,visibility 0s .2s}
+  .nav nav.abierto{visibility:visible;opacity:1;transform:none;transition:opacity .2s,transform .2s}
+  .nav nav a{min-height:52px;padding:0 6px;font-size:18px;border-bottom:1px solid rgba(255,255,255,.08);border-radius:0}
+  .nav nav a.yt{display:none}
+  .logo{font-size:20px}
+  .hero h1{font-size:clamp(32px,9.5vw,40px)}
+  .hero .lead{font-size:16px;margin-top:12px}
+  .hero .btns .btn{flex:1 1 100%;justify-content:center}
+  .equipo{max-width:360px;margin-bottom:-6px}
+  .fig{min-height:190px}
+  .editor{padding:10px 8px 0}
+  .band{padding-left:16px;padding-right:16px}
+  .filtros{flex-wrap:nowrap;overflow-x:auto;margin:16px -16px;padding:2px 16px 6px;scrollbar-width:none}
+  .filtros::-webkit-scrollbar{display:none}
+  .chip{flex:none;min-height:40px;padding:8px 14px;font-size:14px}
+  .grid{gap:12px}
+  .video{flex-direction:row;align-items:stretch}
+  .video .mini{width:42%;flex:none;aspect-ratio:16/9;align-self:center}
+  .video .txt{padding:10px 12px;gap:5px;justify-content:center}
+  .video h3{font-size:15px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .video .meta{font-size:12px}.video .tag{font-size:11px;padding:2px 7px}
+  .video .ver{display:none}
+  .dur{right:6px;bottom:6px;font-size:11px}
+  .grid.corto>.video:nth-child(n+6){display:none}
+  .btn.mas{display:flex;width:100%;justify-content:center}
+  .btn.mas[hidden]{display:none}
+  .cta .btn,#tutoriales .btn.rojo{width:100%;justify-content:center}
+  h2{font-size:28px}
+}
+
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
@@ -166,7 +217,9 @@ footer a{text-decoration:none;color:#f3eef2}
 <header class="nav">
   <div class="wrap">
     <a class="logo" href="#inicio" aria-label="DYWOX, inicio"><svg class="cara" viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="32" rx="27" ry="29" fill="#05040a" stroke="#a855f7" stroke-width="3"/><g stroke-linecap="round" stroke-width="5.5"><path d="M15 19 l10 10 M25 19 l-10 10" stroke="#a855f7"/><path d="M39 19 l10 10 M49 19 l-10 10" stroke="#84ff52"/></g><path d="M18 43 Q32 49 46 43" fill="none" stroke="#38bdf8" stroke-width="4" stroke-linecap="round"/></svg>DYWOX</a>
-    <nav aria-label="Secciones">
+    <a class="yt-movil" href="https://www.youtube.com/@dywox-3" target="_blank" rel="noopener">▶ YouTube</a>
+    <button class="burger" id="burger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+    <nav aria-label="Secciones" id="menu">
       <a href="#tutoriales">Tutoriales</a>
       <a href="#programas">Programas</a>
       <a href="#proyectos">Proyectos</a>
@@ -187,7 +240,12 @@ footer a{text-decoration:none;color:#f3eef2}
           <a class="btn borde" href="#tutoriales">Ver tutoriales</a>
         </div>
       </div>
-      <div class="mascara" id="mascara"></div>
+      <div class="equipo" id="equipo" role="img" aria-label="Dan, Wesley y Oscar, el equipo DYWOX, con la máscara de la marca">
+        <div class="flota">
+          <img class="masc" src="equipo_mascara.webp" alt="" width="900" height="548">
+          <img class="caras" src="equipo_caras.webp" alt="" width="900" height="548" loading="lazy">
+        </div>
+      </div>
     </div>
     <div class="editor" aria-label="Línea de tiempo de un editor de video">
       <div class="editor-bar"><span class="rec">REC</span><b id="tc">00:00:00:00</b><span>proyecto_dywox.dyx · 30 fps</span></div>
@@ -203,7 +261,8 @@ footer a{text-decoration:none;color:#f3eef2}
       <p>Electrónica digital, programación e ingeniería: nuestros proyectos explicados y funcionando.</p>
     </div>
     <div class="filtros" id="filtros" role="group" aria-label="Filtrar tutoriales por tema"></div>
-    <div class="grid" id="videos"></div>
+    <div class="grid corto" id="videos"></div>
+    <button class="btn borde mas" id="mas" type="button">Ver más videos</button>
     <p class="nota" id="aviso" hidden></p>
     <div id="filas-shorts"></div>
     <div class="btns" style="margin-top:24px"><a class="btn rojo" href="https://www.youtube.com/@dywox-3" target="_blank" rel="noopener">▶ Ver todos los videos en el canal</a></div>
@@ -351,6 +410,7 @@ function pintarFiltros(){
 }
 function pintarVideos(){
   const lista = TUTORIALES.filter(t => filtro === "Todos" || t.tema === filtro);
+  $("videos").classList.add("corto"); $("mas").hidden = lista.length <= 5;
   $("videos").innerHTML = lista.length ? lista.map((t,i) => `
     <article class="video">
       <a class="mini" href="${esc(t.youtube)}" target="_blank" rel="noopener" aria-label="Ver ${esc(t.titulo)} en YouTube">${miniatura(t,i)}${foto(t)}${t.dur ? `<span class="dur">${esc(t.dur)}</span>` : ""}</a>
@@ -370,6 +430,15 @@ function pintarShorts(filas){
         <p>${esc(t.titulo)}</p>
       </a>`).join("")}</div>`).join("");
 }
+(function(){
+  const b = $("burger"), m = $("menu");
+  const poner = v => { b.setAttribute("aria-expanded", v); b.setAttribute("aria-label", v ? "Cerrar menú" : "Abrir menú"); m.classList.toggle("abierto", v); };
+  b.addEventListener("click", () => poner(b.getAttribute("aria-expanded") !== "true"));
+  m.addEventListener("click", e => { if (e.target.closest("a")) poner(false); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") poner(false); });
+  document.addEventListener("click", e => { if (!e.target.closest(".nav")) poner(false); });
+})();
+$("mas").addEventListener("click", () => { $("videos").classList.remove("corto"); $("mas").hidden = true; });
 $("filtros").addEventListener("click", e => {
   const b = e.target.closest(".chip"); if (!b) return;
   filtro = b.dataset.t;
@@ -438,23 +507,18 @@ $("casos").innerHTML = PROYECTOS.map(c => `
     <p>${esc(c.texto)}</p>
   </article>`).join("");
 
-/* ---- la máscara del logo de DYWOX ---- */
+/* ---- el equipo: se quitan la máscara en bucle ---- */
 (function(){
-  const brillo = 'filter="url(#luz)"';
-  const ojo = (x, col) => `<g ${brillo} stroke="${col}" stroke-width="10" stroke-linecap="round"><path d="M${x-22} 158 l44 44 M${x+22} 158 l-44 44"/></g>`;
-  let puntos = "";
-  for (let i = 0; i < 7; i++) puntos += `<path d="M${143+i*19} 262 v22" stroke="#38bdf8" stroke-width="5" stroke-linecap="round"/>`;
-  $("mascara").innerHTML = `<svg viewBox="0 0 400 400" role="img" aria-label="Máscara del logo de DYWOX">
-    <defs><filter id="luz" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-    <linearGradient id="capucha" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a2033"/><stop offset="1" stop-color="#120d16"/></linearGradient></defs>
-    <ellipse cx="200" cy="392" rx="150" ry="14" fill="#000" opacity=".22"/>
-    <path d="M200 18 C 92 18 40 120 46 236 C 50 320 92 378 120 392 L 280 392 C 308 378 350 320 354 236 C 360 120 308 18 200 18 Z" fill="url(#capucha)"/>
-    <path d="M200 18 C 92 18 40 120 46 236 C 50 320 92 378 120 392" fill="none" stroke="#38bdf8" stroke-width="4" ${brillo} opacity=".9"/>
-    <path d="M200 18 C 308 18 360 120 354 236 C 350 320 308 378 280 392" fill="none" stroke="#a855f7" stroke-width="4" ${brillo} opacity=".9"/>
-    <ellipse cx="200" cy="222" rx="112" ry="132" fill="#05040a"/>
-    ${ojo(150, "#a855f7")}${ojo(250, "#84ff52")}
-    <path d="M136 272 Q 200 300 264 272" fill="none" stroke="#38bdf8" stroke-width="6" stroke-linecap="round" ${brillo}/>
-    ${puntos}</svg>`;
+  const eq = $("equipo"); if (!eq) return;
+  let sin = false;
+  function cambiar(){
+    sin = !sin;
+    eq.classList.remove("glitch"); void eq.offsetWidth; eq.classList.add("glitch");
+    eq.classList.toggle("sin", sin);
+    setTimeout(cambiar, sin ? 3000 : 5000);
+  }
+  eq.addEventListener("animationend", e => { if (e.animationName === "destello") eq.classList.remove("glitch"); });
+  setTimeout(cambiar, 5000);
 })();
 
 /* ---- la línea de tiempo de la portada ---- */
@@ -476,7 +540,7 @@ function dibujar(){
   for (let k = 0; k <= 12; k++){
     const x = izq + ancho * k / 12;
     out += `<line x1="${x}" y1="6" x2="${x}" y2="${regla - 4}" stroke="#4a3f52" stroke-width="1"/>`;
-    if (k < 12 && (!angosto || k % 3 === 0)) out += `<text x="${x + 4}" y="15" fill="#8d808c" font-size="11" font-family="Inter">00:0${Math.floor(k/6)}:${String(k*10%60).padStart(2,"0")}</text>`;
+    if (k < 12 && (!angosto || (k % 4 === 0 && k > 0))) out += `<text x="${x + 4}" y="15" fill="#8d808c" font-size="11" font-family="Inter">${angosto ? `${Math.floor(k/6)}:${String(k*10%60).padStart(2,"0")}` : `00:0${Math.floor(k/6)}:${String(k*10%60).padStart(2,"0")}`}</text>`;
   }
   PISTAS.forEach((p, i) => {
     const y = regla + i * alto;
@@ -488,8 +552,8 @@ function dibujar(){
       out += `<rect x="${x}" y="${yy}" width="${w}" height="${h}" rx="6" fill="${col}"/>`;
       out += `<rect x="${x}" y="${yy}" width="${w}" height="3" rx="1.5" fill="#fff" opacity=".22"/>`;
       if (onda){ for (let q = x + 6; q < x + w - 6; q += 5){ s = s*16807 % 2147483647; const v = 3 + (s % Math.max(4, h*0.42)); out += `<rect x="${q}" y="${yy + h*0.62 - v/2}" width="2.5" height="${v}" fill="#fff" opacity=".45"/>`; } }
-      const cabe = nom.length * 7.4 + 14 < w;
-      if (cabe) out += `<text x="${x + 8}" y="${yy + 17}" fill="#fff" font-size="13" font-weight="600" font-family="Inter">${nom}</text>`;
+      const fs = angosto ? 11 : 13, cabe = nom.length * fs * 0.57 + 14 < w && !(angosto && onda);
+      if (cabe) out += `<text x="${x + 7}" y="${yy + fs + 4}" fill="#fff" font-size="${fs}" font-weight="600" font-family="Inter">${nom}</text>`;
     });
   });
   out += `<g id="cab"><line x1="0" y1="4" x2="0" y2="${H}" stroke="#fff" stroke-width="2"/><path d="M-7 2 h14 v8 l-7 7 l-7 -7 Z" fill="#fff"/></g>`;
